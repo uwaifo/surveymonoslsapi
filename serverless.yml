@@ -1,0 +1,59 @@
+service:
+  name: surveyapi
+
+plugins:
+  - serverless-bundle
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: us-west-1
+  environment:
+    SURVEY_QUEST_TABLE: ${self:custom.SurveyQuestionsTable.name}
+  iamRoleStatements:
+    - ${file(iam/QuestionsTableIAM.yml):QuestionsTableIAM}
+
+resources:
+  Resources:
+    SurveyQuestionsTable: ${file(resources/SurveyQuestionsTable.yml):SurveyQuestionsTable}
+
+functions:
+  createQuestion:
+    handler: src/handlers/createQuestion.handler
+    events:
+      - http:
+          method: POST
+          path: /question
+
+  getQuestions:
+    handler: src/handlers/getQuestions.handler
+    events:
+      - http:
+          method: GET
+          path: /questions
+          cosrs: true
+
+  getQuestionById:
+    handler: src/handlers/getQuestionById.handler
+    events:
+      - http:
+          method: GET
+          path: /question/{id}
+          cors: true
+  getQuestionBySeq:
+    handler: src/handlers/getQuestionBySeq.handler
+    events:
+      - http:
+          method: GET
+          path: /question/{id}/sequence
+          cors: true
+
+custom:
+  SurveyQuestionsTable:
+    name: !Ref SurveyQuestionsTable
+    arn: !GetAtt SurveyQuestionsTable.Arn
+  bundle:
+    linting: true

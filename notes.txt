@@ -1,0 +1,11 @@
+https://www.serverless.com/framework/docs/providers/aws/guide/credentials/
+
+Choosing a different region   region: us-west-1
+
+
+TO REMOVE A STACK AND I GUESS WITH IYS ASSOCIATED RESOURCES
+sls remove -v
+
+
+npm install @middy/http-cors
+

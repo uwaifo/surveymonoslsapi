@@ -1,0 +1,20 @@
+SurveyQuestionsTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: irr-d0-surveyQuestions-${self:provider.stage}
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: questionId
+        AttributeType: S
+      - AttributeName: sequenceNumber
+        AttributeType: N
+    KeySchema:
+      - AttributeName: questionId
+        KeyType: HASH
+    GlobalSecondaryIndexes:
+      - IndexName: searchBySequence
+        KeySchema:
+          - AttributeName: sequenceNumber
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL
