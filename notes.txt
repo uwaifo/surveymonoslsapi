@@ -9,3 +9,5 @@ sls remove -v
 
 npm install @middy/http-cors
 
+
+➜  surveyapi git:(master) serverless deploy --aws-profile programmer1

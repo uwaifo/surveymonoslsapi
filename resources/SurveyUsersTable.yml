@@ -1,0 +1,11 @@
+SurveyUsersTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: irr-d0-userDetail-${self:provider.stage}
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: userId
+        AttributeType: S
+    KeySchema:
+      - AttributeName: userId
+        KeyType: HASH

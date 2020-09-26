@@ -10,15 +10,18 @@ provider:
   runtime: nodejs12.x
   memorySize: 256
   stage: ${opt:stage, 'dev'}
-  region: us-west-1
+  region: us-east-1
   environment:
+    SURVEY_USER_TABLE: ${self:custom.SurveyUsersTable.name}
     SURVEY_QUEST_TABLE: ${self:custom.SurveyQuestionsTable.name}
   iamRoleStatements:
     - ${file(iam/QuestionsTableIAM.yml):QuestionsTableIAM}
+    - ${file(iam/UsersTableIAM.yml):UsersTableIAM}
 
 resources:
   Resources:
     SurveyQuestionsTable: ${file(resources/SurveyQuestionsTable.yml):SurveyQuestionsTable}
+    SurveyUsersTable: ${file(resources/SurveyUsersTable.yml):SurveyUsersTable}
 
 functions:
   createQuestion:
@@ -43,6 +46,7 @@ functions:
           method: GET
           path: /question/{id}
           cors: true
+
   getQuestionBySeq:
     handler: src/handlers/getQuestionBySeq.handler
     events:
@@ -51,9 +55,43 @@ functions:
           path: /question/{id}/sequence
           cors: true
 
+  createUser:
+    handler: src/handlers/createUser.handler
+    events:
+      - http:
+          method: POST
+          path: /user
+          cors: true
+
+  updatProfile:
+    handler: src/handlers/users/updateProfile.handler
+    events:
+      - http:
+          method: PATCH
+          path: /user/{id}/profile
+          cors: true
+
+  getUserById:
+    handler: src/handlers/getUserById.handler
+    events:
+      - http:
+          method: GET
+          path: /user/{id}
+          cors: true
+
+  newCognitoUser:
+    handler: src/handlers/users/newCognitoUser.handler
+    events:
+      - cognitoUserPool:
+        pool: ircocom60e2ad3e_userpool_60e2ad3e-dev
+        trigger: PostConfirmation
+
 custom:
   SurveyQuestionsTable:
     name: !Ref SurveyQuestionsTable
     arn: !GetAtt SurveyQuestionsTable.Arn
+  SurveyUsersTable:
+    name: !Ref SurveyUsersTable
+    arn: !GetAtt SurveyUsersTable.Arn
   bundle:
     linting: true
