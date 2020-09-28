@@ -30,6 +30,7 @@ functions:
       - http:
           method: POST
           path: /question
+          cors: true
 
   getQuestions:
     handler: src/handlers/getQuestions.handler
@@ -70,7 +71,6 @@ functions:
           method: PATCH
           path: /user/{id}/profile
           cors: true
-
   getUserById:
     handler: src/handlers/getUserById.handler
     events:

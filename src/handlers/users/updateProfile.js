@@ -15,8 +15,8 @@ async function updateProfile(event, context) {
     phoneNumber,
     phoneType,
     address,
-    city,
-    state,
+    //addressCity,
+    //addressState,
   } = event.body;
 
   if (firstName && lastName && phoneNumber === undefined) {
@@ -26,6 +26,7 @@ async function updateProfile(event, context) {
   }
   //const updatedAttributes = [];
   //const expressionAttributeValues = {};
+  //address = :address, addressCity = :addressCity, addressState = :addressState
 
   const params = {
     TableName: process.env.SURVEY_USER_TABLE,
@@ -36,13 +37,11 @@ async function updateProfile(event, context) {
       ":phoneNumber": phoneNumber,
       ":phoneType": phoneType,
       ":address": address,
-      ":city": city,
-      ":state": state,
       ":profileStatus": true,
       ":lastLoggedIn": today,
     },
     UpdateExpression:
-      "SET firstName = :firstName, lastName = :lastName, phoneNumber = :phoneNumber, phoneType = :phoneType,address = :address, city = :city, state = :state, profileStatus = :profileStatus, lastLoggedIn = :lastLoggedIn",
+      "SET firstName = :firstName, lastName = :lastName, address = :address, phoneNumber = :phoneNumber, phoneType = :phoneType, profileStatus = :profileStatus, lastLoggedIn = :lastLoggedIn",
     ReturnValues: "ALL_NEW",
   };
 
@@ -61,3 +60,14 @@ async function updateProfile(event, context) {
 }
 
 export const handler = commonMiddleware(updateProfile);
+
+/*
+  updatProfile:
+    handler: src/handlers/users/updateProfile.handler
+    events:
+      - http:
+          method: PATCH
+          path: /user/{id}/profile
+          cors: true
+
+*/
