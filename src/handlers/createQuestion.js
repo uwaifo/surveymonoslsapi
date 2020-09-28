@@ -20,7 +20,7 @@ async function createQuestion(event, context) {
     questionType,
     sequenceNumber: 0,
     statusActive: true,
-    createdAt: now.toISOString(),
+    createdAt: now.toLocaleDateString(),
   };
 
   if (!questionTypes.includes(questionType)) {

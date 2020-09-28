@@ -7,15 +7,16 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 async function updateProfile(event, context) {
   const { id } = event.pathParameters;
   let userUpdate;
+  const today = new Date().toLocaleDateString();
 
   const {
     firstName,
     lastName,
     phoneNumber,
-    //phoneType,
+    phoneType,
     address,
-    //city,
-    //state,
+    city,
+    state,
   } = event.body;
 
   if (firstName && lastName && phoneNumber === undefined) {
@@ -33,11 +34,15 @@ async function updateProfile(event, context) {
       ":firstName": firstName,
       ":lastName": lastName,
       ":phoneNumber": phoneNumber,
-      ":profileStatus": true,
+      ":phoneType": phoneType,
       ":address": address,
+      ":city": city,
+      ":state": state,
+      ":profileStatus": true,
+      ":lastLoggedIn": today,
     },
     UpdateExpression:
-      "SET firstName = :firstName, lastName = :lastName, phoneNumber = :phoneNumber,address = :address, profileStatus = :profileStatus",
+      "SET firstName = :firstName, lastName = :lastName, phoneNumber = :phoneNumber, phoneType = :phoneType,address = :address, city = :city, state = :state, profileStatus = :profileStatus, lastLoggedIn = :lastLoggedIn",
     ReturnValues: "ALL_NEW",
   };
 

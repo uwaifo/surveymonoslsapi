@@ -25,7 +25,7 @@ async function createUser(event, context) {
     phoneType,
     address,
     surveyStatus: "NOT-STARTED",
-    dateCreated: now.toISOString(),
+    dateCreated: now.toLocaleDateString(),
     lastLoggedIn: "",
   };
 

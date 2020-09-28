@@ -24,7 +24,7 @@ async function newCognitoUser(event, context, callback) {
       city: "",
       state: "",
     },
-    dateCreated: now.toISOString(),
+    dateCreated: now.toLocaleDateString(),
     surveyStatus: "NOT-STARTED",
     profileStatus: false,
     lastLoggedIn: "",

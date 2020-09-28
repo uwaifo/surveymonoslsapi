@@ -83,8 +83,8 @@ functions:
     handler: src/handlers/users/newCognitoUser.handler
     events:
       - cognitoUserPool:
-        pool: ircocom60e2ad3e_userpool_60e2ad3e-dev
-        trigger: PostConfirmation
+          pool: ircocom60e2ad3e_userpool_60e2ad3e-dev
+          trigger: PostConfirmation
 
 custom:
   SurveyQuestionsTable:
