@@ -1,0 +1,12 @@
+ResponseTableIAM:
+  Effect: Allow
+  Action:
+    - dynamodb:PutItem
+    - dynamodb:Scan
+    - dynamodb:GetItem
+    - dynamodb:UpdateItem
+    - dynamodb:Query
+  Resource:
+    - ${self:custom.SurveyResponseTable.arn}
+    - !Join ["/", ["${self:custom.SurveyResponseTable.arn}", "index"]]
+    #- arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/irr-d0-surveyQuestions
