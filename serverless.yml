@@ -97,6 +97,14 @@ functions:
           path: /user/response
           cors: true
 
+  updateSurveyStatus:
+    handler: src/handlers/users/updateSurveyStatus.handler
+    events:
+      - http:
+          method: PATCH
+          path: /user/surveystatus
+          cors: true
+
   newCognitoUser:
     handler: src/handlers/users/newCognitoUser.handler
     events:

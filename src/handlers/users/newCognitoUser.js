@@ -29,6 +29,7 @@ async function newCognitoUser(event, context, callback) {
     profileStatus: false,
     lastLoggedIn: "",
     surveyResponse: [],
+    progressPosition: 0,
   };
 
   try {
